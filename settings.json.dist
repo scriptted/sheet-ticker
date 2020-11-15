@@ -2,4 +2,5 @@
     "binance_client" : "",
     "binance_secret" : "",
     "google_spreadsheet_id" : ""
+    "google_spreadsheet_range_from" : ""
 }

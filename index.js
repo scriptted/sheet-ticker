@@ -16,6 +16,7 @@ const Binance = require('node-binance-api');
 var binanceAPIKey;
 var binanceAPISecret;
 var googleSheetID;
+var googleSheetRangeFrom;
 
 var binance;
 
@@ -32,6 +33,7 @@ promise.then((data) => {
   binanceAPIKey = data.binance_client;
   binanceAPISecret = data.binance_secret;
   googleSheetID = data.google_spreadsheet_id;
+  googleSheetRangeFrom = data.google_spreadsheet_range_from;
 
   binance = new Binance().options({
     APIKEY: binanceAPIKey,
@@ -105,8 +107,8 @@ function getNewToken(oAuth2Client, callback) {
 function listPairs(auth) {
   const sheets = google.sheets({version: 'v4', auth});
   sheets.spreadsheets.values.get({
-    spreadsheetId: googleSheetID,
-    range: 'USDT!B7:I7',
+    spreadsheetId: googleSheetRangeFrom,
+    range: googleSheetRange,
   }, (err, res) => {
     if (err) return console.log('The API returned an error: ' + err);
     const rows = res.data.values;
@@ -144,8 +146,6 @@ function getPairsPrices(sheets, pairs) {
 }
 
 function writePrices(sheets, prices) {
-  console.log(prices);
-
   sheets.spreadsheets.values.update({
     spreadsheetId: googleSheetID,
     range: 'USDT!B1:I1',
@@ -158,7 +158,7 @@ function writePrices(sheets, prices) {
   },
   (err, res) => {
     if (err) return console.log('The API returned an error: ' + err);
-    console.log(res);
+    //console.log(res);
     console.log('Prix envoyés sur le document');
   });
 }
