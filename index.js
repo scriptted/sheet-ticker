@@ -107,8 +107,8 @@ function getNewToken(oAuth2Client, callback) {
 function listPairs(auth) {
   const sheets = google.sheets({version: 'v4', auth});
   sheets.spreadsheets.values.get({
-    spreadsheetId: googleSheetRangeFrom,
-    range: googleSheetRange,
+    spreadsheetId: googleSheetID,
+    range: googleSheetRangeFrom,
   }, (err, res) => {
     if (err) return console.log('The API returned an error: ' + err);
     const rows = res.data.values;
